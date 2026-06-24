@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>飲みに行こう？</title>
+
+    <meta property="og:title" content="お伺い">
+    <meta property="og:description" content="朝まで飲みに行こう？">
+    <meta property="og:type" content="website">
+    
+    <style>
+        :root {
+            --bg-color: #ffe4e1;
+            --primary-color: #d1547a;
+            --btn-yes: #ff69b4;
+            --btn-no: #a9a9a9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            text-align: center;
+            font-family: sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            min-height: 3rem; /* テキスト変更時のガタつき防止 */
+            transition: all 0.3s;
+        }
+
+        .btn-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+        }
+
+        button {
+            font-size: 1.25rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #yesBtn {
+            background-color: var(--btn-yes);
+            color: white;
+            transition: all 0.2s ease;
+        }
+
+        #noBtn {
+            background-color: var(--btn-no);
+            color: white;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            transition: left 0.1s ease, top 0.1s ease;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="message">朝まで飲みに行こう？ </h1>
+    
+    <div class="btn-container">
+        <button id="yesBtn">Yes</button>
+        <button id="noBtn">No</button>
+    </div>
+
+    <script>
+        (() => {
+            let noCount = 0;
+            let yesPadding = 1.5; 
+            let yesFontSize = 1.25; 
+
+            const replies = [
+                "嘘やんね？ ",
+                "お願いです🥺",
+                "もう一回考えて？",
+                "後悔しない？ ",
+                "Yesって言って！！😡"
+            ];
+
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+            const message = document.getElementById('message');
+
+            const moveButton = (e) => {
+                e.preventDefault();
+
+                if (noCount < replies.length) {
+                    message.innerHTML = replies[noCount];
+                } else {
+                    message.innerHTML = "もうYesしか受け付けません！ 😤";
+                }
+
+                yesPadding += 0.5;
+                yesFontSize += 0.1;
+                yesBtn.style.padding = `${yesPadding * 0.5}rem ${yesPadding}rem`;
+                yesBtn.style.fontSize = `${yesFontSize}rem`;
+
+                const padding = 50; 
+                const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+                const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+                const randomX = Math.max(padding, Math.random() * (maxX - padding) + padding);
+                const randomY = Math.max(padding, Math.random() * (maxY - padding) + padding);
+
+                noBtn.style.position = 'fixed'; 
+                noBtn.style.left = `${randomX}px`;
+                noBtn.style.top = `${randomY}px`;
+                noBtn.style.transform = 'none'; 
+
+                noCount++;
+            };
+
+            const celebrate = () => {
+                message.innerHTML = "やった！都合の良い日教えてください！いっぱいのも〜☺";
+                noBtn.style.display = 'none';
+                yesBtn.style.transform = 'scale(1.3)';
+            };
+
+            noBtn.addEventListener('touchstart', moveButton, { passive: false });
+            noBtn.addEventListener('mouseover', moveButton);
+            noBtn.addEventListener('click', moveButton);
+            
+            yesBtn.addEventListener('click', celebrate);
+        })();
+    </script>
+</body>
+</html>
