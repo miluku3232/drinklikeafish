@@ -41,7 +41,7 @@
             color: var(--primary-color);
             font-size: 1.5rem;
             margin-bottom: 2rem;
-            min-height: 3rem; /* テキスト変更時のガタつき防止 */
+            min-height: 3rem; 
             transition: all 0.3s;
         }
 
@@ -100,7 +100,7 @@
                 "お願いです🥺",
                 "もう一回考えて？",
                 "後悔しない？ ",
-                "Yesって言って！！😡"
+                "そこのイケメン！Yes押して♡"
             ];
 
             const yesBtn = document.getElementById('yesBtn');
@@ -112,8 +112,8 @@
 
                 if (noCount < replies.length) {
                     message.innerHTML = replies[noCount];
-                } else {
-                    message.innerHTML = "もうYesしか受け付けません！ 😤";
+                } 
+                    message.innerHTML = "もうYesしかないからね〜";
                 }
 
                 yesPadding += 0.5;
